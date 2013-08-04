@@ -5,10 +5,27 @@ import json
 
 PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))
 
-STATIC_ROOT = os.path.join(PROJECT_PATH, '../staticfiles')
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
-MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE', 'django.core.files.storage.FileSystemStorage') # 'bjjweb.s3utils.MediaRootS3BotoStorage'
+STATICFILES_STORAGE = os.environ.get('STATICFILES_STORAGE', 'django.contrib.staticfiles.storage.StaticFilesStorage') # 'bjjweb.s3utils.StaticRootS3BotoStorage'
+
+AWS_ACCESS_KEY_ID = 'AKIAJFS42WMAXJEFRO2Q'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AKIAJFS42WMAXJEFRO2Q'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'explorers'
+
+if 'StaticFilesStorage' in STATICFILES_STORAGE:
+    STATIC_ROOT = os.path.join(PROJECT_PATH, '../staticfiles')
+    STATIC_URL = '/static/'
+    MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+    MEDIA_URL = '/media/'
+else:
+    S3_URL = 'http://s3-us-west-2.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
+    STATIC_ROOT = '/static/'
+    STATIC_URL = S3_URL + STATIC_ROOT
+    MEDIA_ROOT = '/media/'#os.path.join(PROJECT_PATH, 'media')
+    MEDIA_URL = S3_URL + MEDIA_ROOT
+    #MEDIA_UPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'uploads')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
