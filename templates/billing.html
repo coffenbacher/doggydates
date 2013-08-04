@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for key, value in d.items %}
+    <h1>{{ key }}</h1>
+    <h2>Recurring</h2>
+    <ul>
+    {% for e, count in value.regular.items %}
+        <li> {{ e }}: {{ count }} </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Changes</h2>
+    <ul>
+    {% for c in value.changes %}
+        <li>{{ c.date|date:"D d M Y" }}, {{ c.action }}, Group: {{ c.group }}</li>
+    {% endfor %}    
+    </ul>
+
+{% endfor %}
+
+{% endblock %}
+

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="{{ STATIC_URL }}table/lib/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}table/dist/jquery.handsontable.full.js"></script>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}table/dist/jquery.handsontable.full.css">
+<div id="dataTable"></div>
+
+<script>
+  var data = [
+    ["Customer", "Action", "Date", "Group"],
+    {% for r in rows %}
+    ["{{ r.customer }}", "{{ r.action }}", "{{ r.date }}", "{{ r.group }}"],
+    {% endfor %}
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+  ];
+  $("#dataTable").handsontable({
+    data: data,
+    startRows: 20,
+    startCols: 4
+  });
+
+
+$(document).ready(function(){
+    $("#save").click(function(){
+        var handsontable = $("#dataTable").data('handsontable');
+        var d = JSON.stringify(handsontable.getData());
+        $.post('/changes', {'data': d}, function(){
+            console.log('success');
+
+
+        });
+    });
+});
+</script>
+
+<button id="save">Save</button>
+
+
+{% endblock %}
+

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="{{ STATIC_URL }}table/lib/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}table/dist/jquery.handsontable.full.js"></script>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}table/dist/jquery.handsontable.full.css">
+<div id="dataTable"></div>
+
+<script>
+  var data = [
+    ["Customer", "Day", "Group", "Walker", "Address", "Dog", "Cell", "Home Phone", "Email", "Notes"],
+    {% for r in rows %}
+    ["{{ r.customer }}", "{{ r.day }}", "{{ r.group }}", "{{ r.walker }}", "{{ r.address }}", "{{ r.dog }}", "{{ r.cell }}", "{{ r.home }}", "{{ r.email }}", "{{ r.notes }}"],
+    {% endfor %}
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+  ];
+  $("#dataTable").handsontable({
+    data: data,
+    startRows: 20,
+    startCols: 10
+  });
+
+
+$(document).ready(function(){
+    $("#save").click(function(){
+        var handsontable = $("#dataTable").data('handsontable');
+        var d = JSON.stringify(handsontable.getData());
+        $.post('/', {'data': d}, function(){
+            console.log('success');
+
+
+        });
+    });
+});
+</script>
+
+<button id="save">Save</button>
+
+
+{% endblock %}
+

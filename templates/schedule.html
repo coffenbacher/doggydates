@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form>
+    Date: <input name="date">
+    <input type="submit">
+    </form>
+    
+    {% if data %}
+        {% for walker, walks in data.items %}
+            <h1> {{ walker }} </h1>
+
+            <table>
+                <tr>
+                    <th>Customer</th>
+                    <th>Dog</th>
+                    <th>Address</th>
+                    <th>Group</th>
+                </tr>
+            {% for w in walks %}
+                <tr><td>{{ w.customer }}</td>, <td>{{ w.dog }}</td>, <td>{{ w.address }}</td>, <td>{{ w.group }}</td></tr>
+            {% endfor %}
+            </table>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
